@@ -1,7 +1,7 @@
 ---
-title: "Introduction"
-teaching: 5
-exercises: 0
+title: "Importing Data"
+teaching: 30
+exercises: 90
 questions:
 - "Key question (FIXME)"
 objectives:

@@ -15,28 +15,42 @@ need to re-assign it here
     These replace 'page.previous' and 'page.next' objects, correspondingly.
 {% endcomment %}
 
-<div class="row">
-  <div class="col-xs-1">
-    <h3 class="text-left">
-      {% if previous_episode %}
-      <a href="{{ relative_root_path }}{{ previous_episode.url }}"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span class="sr-only">previous episode</span></a>
-      {% else %}
-      <a href="{{ relative_root_path }}/"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span><span class="sr-only">lesson home</span></a>
-      {% endif %}
-    </h3>
-  </div>
-  <div class="col-xs-10">
-    {% if include.episode_navbar_title %}
-    <h3 class="maintitle"><a href="{{ relative_root_path }}/">{{ site.title }}</a></h3>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-white mb-0 pb-0 mt-2 justify-content-end px-0">
+    <li class="breadcrumb-item">
+      {%- assign carpentries_map = site.carpentry_map -%}
+      {%- assign current = site.carpentry -%}
+      {%- assign c_text = carpentries_map[current] -%}
+      {% capture which_link %}{{current}}_site{% endcapture %}
+      {%- assign c_link = site[which_link] -%}
+    <a href="{{ c_link }}"><span class="fas fa-home" aria-hidden="true"></span> {{ c_text }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{{ relative_root_path }}/">{{ site.kind | capitalize }}: {{ site.title | truncatewords: 4 }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Episode: {{ page.title | truncatewords: 4 }}
+    </li>
+  </ol>
+</nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-white mb-2 justify-content-end px-0">
+    {% if previous_episode %}
+    <li class="breadcrumb-item">
+      <a href="{{ relative_root_path }}{{ previous_episode.url }}">
+        <span class="fas fa-chevron-left" aria-hidden="true"></span>
+        Previous
+      </a>
+    </li>
     {% endif %}
-  </div>
-  <div class="col-xs-1">
-    <h3 class="text-right">
-      {% if next_episode %}
-      <a href="{{ relative_root_path }}{{ next_episode.url }}"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="sr-only">next episode</span></a>
-      {% else %}
-      <a href="{{ relative_root_path }}/"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span><span class="sr-only">lesson home</span></a>
-      {% endif %}
-    </h3>
-  </div>
-</div>
+    {% if next_episode %}
+    <li class="breadcrumb-item">
+      <a href="{{ relative_root_path }}{{ next_episode.url }}">
+        Next
+        <span class="fas fa-chevron-right" aria-hidden="true"></span>
+      </a>
+    </li>
+    {% endif %}
+
+  </ol>
+</nav>

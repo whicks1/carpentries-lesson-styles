@@ -10,8 +10,17 @@
 # incubator: Carpentries Incubator
 carpentry: "swc"
 
+## shim, convenience for breadcrumbs and other k:v mapping,
+## consider remapping sites /carpentry into one structure.
+carpentry_map:
+  swc: Software Carpentry
+  dc: Data Carpentry
+  lc: Library Carpentry
+  cp: Carpentries
+  incubator: Carpentries Incubator
+
 # Overall title for pages.
-title: "Lesson Title"
+title: "Migration Playground"
 
 # Life cycle stage of the lesson
 # See this page for more details: https://cdh.carpentries.org/the-lesson-life-cycle.html

@@ -1,6 +1,22 @@
 ---
 layout: base
 ---
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-white my-2 justify-content-end px-0">
+    <li class="breadcrumb-item">
+      {%- assign carpentries_map = site.carpentry_map -%}
+	  {%- assign current = site.carpentry -%}
+	  {%- assign c_text = carpentries_map[current] -%}
+	  {% capture which_link %}{{current}}_site{% endcapture %}
+	  {%- assign c_link = site[which_link] -%}
+	  <a href="{{ c_link }}"><span class="fas fa-home" aria-hidden="true"></span> {{ c_text }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ site.kind | capitalize }} {{ site.title |truncatewords: 4 }}
+    </li>
+  </ol>
+</nav>
+
 {% include main_title.html %}
 <article>
   {{ content }}
