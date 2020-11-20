@@ -1,0 +1,32 @@
+<div class="modal fade" id="modal-markdown-editor" tabindex="-1">
+  <div class="modal-dialog mw-100 m-4" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Markdown Editor</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="max-height: calc(100vh - 200px); overflow-y: auto;">
+      	{% capture editable_data %}{% include_relative {{page.path | remove: include.remove_dir}} %}{% endcapture %}
+      	{% assign editable_array = editable_data | split: "---" %}
+      	<textarea id="editor"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button id="copyMarkdown" type="button" class="btn btn-secondary">Copy Markdown</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+
+<script>
+var easyMDE = new EasyMDE({
+	element: document.getElementById('editor'),
+	autoRefresh: { delay: 300 }
+});
+easyMDE.value({{editable_array | shift | shift | join: "" | jsonify }});
+</script>

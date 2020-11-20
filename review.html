@@ -1,0 +1,173 @@
+---
+layout: page
+title: Content Review
+permalink: /review/
+---
+
+{%- assign site_pages = site.pages -%}
+{%- assign site_episodes = site.episodes -%}
+{%- assign site_extras = site.extras -%}
+{%- assign needs_review = site_pages | concat: site_episodes | concat: site_extras | sort: "path" -%}
+
+<div class="row mb-4">
+	<article class="col">
+
+	<h2>1. Review Configuration Settings</h2>
+
+	<p>
+		Make sure the following site variables, defined in <code>/_config.yml</code>
+		are up to date.
+	</p>
+
+	<div class="row">
+		<div class="col">
+			<div class="list-group">
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Site Title: </strong><span>{{ site.title }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Life Cycle Stage: </strong><span>{{ site.life_cycle }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Carpentry Type: </strong><span>{{ site.carpentry }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Kind: </strong><span>{{ site.kind }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Site E-mail: </strong><span>{{ site.email }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Start Time: </strong><span>{{ site.start_time }}</span>
+				</div>
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<strong>Reviewed Date: </strong><span>{{ site.reviewed }}</span>
+				</div>
+			</div>
+
+
+			<div class="alert alert-info my-4">
+				<label for="review-today">Need a review date for today?</label>
+				<p class="small">Including a short review date/time string can be helpful to track
+					how long it's been since someone looked over a page or the site. Just copy/paste
+					the following key:value pair into the front-matter metadata of your pages, or into
+					<code>/_config.yml</code></p>
+				<div class="input-group">
+					<input class="form-control" id="review-today" type="text" value="reviewed:" />
+					<div class="input-group-append">
+						<button class="btn btn-secondary clip"
+						        data-clipboard-target="#review-today"
+						        data-toggle="tooltip"
+						        title="copy to clipboard">
+							<span class="fas fa-copy"
+							      title="copy to clipboard"
+							      aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+
+
+	<h2>2. FIXMEs Present</h2>
+
+	<p>
+		Let's make sure there are no more markdown-generated files
+		containing auto-generated <span class="badge badge-danger rounded-0">fixme</span>
+		text that needs updating. Find the following files and update the content.
+	</p>
+
+	<div class="list-group">
+	{% for item in needs_review %}
+		{% assign test_content = item.content  %}
+			{% if item.path contains ".md" and test_content contains "FIXME" %}
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<a href="{{ relative_root_path }}{{ item.permalink | default: item.url }}" class="">
+						{{ item.path | prepend: "/" }}
+					</a>
+					<a href="{{ relative_root_path }}{{ item.permalink | default: item.url }}?modal=markdown" class="badge badge-danger rounded-0">
+						fixme
+					</a>
+				</div>
+			{% endif %}
+	{% endfor %}
+	</div>
+
+	<h2>3. QC Overview</h2>
+
+	<p>
+		Please review each page individually for consistency, spelling, etc. This list
+		gives you a full inventory of pages, along with word count, and information about metadata that
+		has been set for each page.
+	</p>
+
+
+	<div class="card-columns">
+	{% for item in needs_review %}
+		{% assign test_content = item.content  %}
+			{% if item.path contains ".md" %}
+				<div class="card">
+					<div class="card-header">
+						{{ item.path | prepend: "/" }}
+					</div>
+					<div class="card-body">
+						<span class="badge badge-primary rounded-0">
+							 {{ test_content | number_of_words }} words
+						</span>
+						{% if item.teaching %}
+						<span class="badge badge-info rounded-0">
+							Teaching Time: {{ item.teaching | default: "0" }}
+						</span>
+						{% endif %}
+						{% if item.exercises %}
+						<span class="badge badge-info rounded-0">
+							Exercise Time: {{ item.exercises | default: "0" }}
+						</span>
+						{% endif %}
+						{% if item.questions %}
+						<span class="badge badge-success rounded-0">
+							Questions: {{ item.questions.size | default: "0" }}
+						</span>
+						{% endif %}
+						{% if item.objectives %}
+						<span class="badge badge-success rounded-0">
+							Objectives: {{ item.objectives.size | default: "0" }}
+						</span>
+						{% endif %}
+						{% if item.keypoints %}
+						<span class="badge badge-success rounded-0">
+							Keypoints: {{ item.keypoints.size | default: "0" }}
+						</span>
+						{% endif %}
+						<span class="badge badge-dark rounded-0">
+							Layout: {{ item.layout }}
+						</span>
+						{% unless item.reviewed %}
+							<span class="badge badge-danger rounded-0">
+								no review date
+							</span>
+						{% else %}
+							<span class="badge badge-warning rounded-0">
+								reviewed: {{ item.reviewed | date: "%Y-%m-%d %H:%M" }}
+							</span>
+						{% endunless %}
+					</div>
+					<div class="card-footer">
+						<a href="{{ relative_root_path }}{{ item.permalink | default: item.url }}" class="btn btn-sm btn-link">
+							view
+						</a>
+						<a href="{{ relative_root_path }}{{ item.permalink | default: item.url }}?modal=markdown" class="btn btn-sm btn-link">
+							markdown preview
+						</a>
+					</div>
+				</div>
+			{% endif %}
+	{% endfor %}
+	</div>
+
+	</article>
+</div>

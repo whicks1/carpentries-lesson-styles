@@ -6,7 +6,6 @@ questions:
 - "Key question 1 (FIXME)"
 - "Key question 2 (FIXME)"
 - "Key question 3 (FIXME)"
-
 objectives:
 - "First learning objective. (FIXME)"
 - "Second learning objective. (FIXME)"
@@ -15,6 +14,7 @@ keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 - "Second key point. Brief Answer to questions. (FIXME)"
 - "Third key point. Brief Answer to questions. (FIXME)"
+reviewed: 2020-10-19T16:07:07-06:00
 ---
 Here's a whole bunch of text.
 
