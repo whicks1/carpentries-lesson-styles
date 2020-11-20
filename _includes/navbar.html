@@ -84,7 +84,14 @@ Lesson navigation bar.
       <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#modal-markdown-editor">
         <span class="fas fa-edit"></span>
       </a>
-      </li>
+    </li>
+    <li class="nav-item dropdown">
+      <a href="{{ relative_root_path }}/" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-universal-access"></i> <span class="caret"></span></a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class="dropdown-item">
+          <a id="toggle-opendyslexia" href="{{ relative_root_path }}/">Toggle Dyslexia Font</a></li>
+      </ul>
+    </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" role="search" id="search" onsubmit="google_search(); return false;">
       <input class="form-control mr-sm-2" type="text" id="google-search" placeholder="Search..." aria-label="Google site search">

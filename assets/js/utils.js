@@ -4,7 +4,19 @@ demo.vars = {
     "now"   : dayjs(),
     "$reviewToday" : $("#review-today"),
     "clipboard" : new ClipboardJS('.clip'),
-    "url": window.location.href
+    "url": window.location.href,
+    "$body" : $("body"),
+}
+
+demo.toggleDyslexiaFont = function(){
+    // get current active font from localstorage,
+    // toggle between dyslexia font and standard.
+    currentTheme = localStorage.getItem('font');
+    if (currentTheme === 'opendyslexic') {
+        demo.vars.$body.addClass("opendyslexic");
+    } else {
+        demo.vars.$body.removeClass("opendyslexic");
+    }
 }
 
 $(function() {
@@ -22,8 +34,29 @@ $(function() {
             container: document.getElementById('modal-markdown-editor')
         });
     }
+    // Show modal on page load if query string is present
     if(demo.vars.url.indexOf('?modal=markdown') != -1){
         $('#modal-markdown-editor').modal('show');
     }
+    // Set font-variables to localstorage
+    var fontStyle = localStorage.getItem('font');
+    if (!fontStyle) {
+        localStorage.setItem('font', 'standard');
+    };
+    demo.toggleDyslexiaFont();
+    $("#toggle-opendyslexia").on("click", function(e){
+        // toggle font
+        e.preventDefault();
+        fontStyle = localStorage.getItem('font');
+        if (fontStyle === 'standard') {
+            fontStyle = 'opendyslexic';
+        } else {
+            fontStyle = 'standard';
+        }
+        localStorage.setItem('font', fontStyle);
+
+        demo.toggleDyslexiaFont();
+        return false;
+    });
 });
 
